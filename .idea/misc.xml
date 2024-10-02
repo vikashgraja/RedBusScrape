@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="033fecc2-8e47-4be4-8613-2e55bbf27b55" />
+  <component name="Black">
+    <option name="sdkName" value="Python 3.9 (RedBusScrape)" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
