@@ -8,3 +8,4 @@ data = scraper.start_scrape()
 
 df = pd.DataFrame(data)
 df.to_csv('test.csv', index=False)
+print("Ok")
