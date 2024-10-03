@@ -2,15 +2,15 @@
 import mysql.connector
 from mysql.connector import Error
 
+from settings import mysql_server, mysql_user, mysql_password
 
 def connect_scrape_database():
     """AAAAAAAAAAA"""
     try:
-        # Step 1: Connect to the MySQL server
         connection = mysql.connector.connect(
-            host='localhost',  # Replace with your host, e.g., '127.0.0.1'
-            user='your_username',  # Replace with your MySQL username
-            password='your_password'  # Replace with your MySQL password
+            host= mysql_server,
+            user= mysql_user,
+            password= mysql_password
         )
 
         if connection.is_connected():
@@ -34,9 +34,9 @@ def connect_scrape_database():
                 seats_available INT COMMENT 'Number of seats available'
             )'''
             cursor.execute(table_create)
-            return cursor
-        return None
+            return connection
+        # return None
 
     except Error as e:
-        print(f"Error: {e}")
+        print(f"Error: \n{e}")
         return None
