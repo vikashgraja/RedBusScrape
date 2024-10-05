@@ -21,7 +21,9 @@ for stc in states:
     url = f'https://www.redbus.in/online-booking/{stc}'
 
     scraper = ScrapeRedbus(url)
-    data_all_state += [scraper.start_scrape()]
+    data_all_state.extend(scraper.start_scrape())
+
+print("Done Scraping")
 
 df = pd.DataFrame(data_all_state)
 df.to_csv('test.csv', index=False)
