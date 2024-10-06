@@ -25,10 +25,31 @@ for stc in states:
 
 print("Done Scraping")
 
-df = pd.DataFrame(data_all_state)
-df.to_csv('test.csv', index=False)
-print("Ok")
+data = pd.DataFrame(data_all_state)
 
-# connection = connect_scrape_database()
-# cursor = connection.cursor()
+print('Cleaning Data',end=' ')
+df = data.dropna().copy()
+df.price = df.price.str.replace('INR ','')
+df.seats_available = df.seats_available.str.replace(' Seats available','')
+df.seats_available = df.seats_available.str.replace(' Seat available','')
+df = df.astype({'seats_available':'int','price':'float64'})
+print('Done')
 
+# df.to_csv('test.csv', index=False)
+# print("Done Saving Data")
+
+connection = connect_scrape_database()
+cursor = connection.cursor()
+
+print('Saving Data in DB',end=' ')
+for i, row in df.iterrows():
+    insert_query = """
+    INSERT INTO bus_routes (route_name, route_link, busname, bustype, departing_time, duration, reaching_time, star_rating, price, seats_available)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    cursor.execute(insert_query, tuple(row))
+
+connection.commit()
+cursor.close()
+connection.close()
+print('Done')
