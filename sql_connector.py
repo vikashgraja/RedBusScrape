@@ -26,14 +26,15 @@ def connect_scrape_database():
                 route_link TEXT COMMENT 'Link to the route details',
                 busname TEXT COMMENT 'Name of the bus',
                 bustype TEXT COMMENT 'Type of the bus',
-                departing_time TIME COMMENT 'Departure time',
+                departing_time TEXT COMMENT 'Departure time',
                 duration TEXT COMMENT 'Duration of the journey',
-                reaching_time TIME COMMENT 'Arrival time',
+                reaching_time TEXT COMMENT 'Arrival time',
                 star_rating FLOAT COMMENT 'Rating of the bus',
                 price DECIMAL(10, 2) COMMENT 'Price of the ticket',
                 seats_available INT COMMENT 'Number of seats available'
             )'''
             cursor.execute(table_create)
+            print('Connected')
             return connection
         # return None
 
