@@ -16,8 +16,11 @@ def connect_scrape_database():
         if connection.is_connected():
             cursor = connection.cursor()
 
-            cursor.execute("CREATE DATABASE IF NOT EXISTS scrape_database")
-            connection.database = 'scrape_database'
+            cursor.execute("CREATE DATABASE IF NOT EXISTS test_database")
+            connection.database = 'test_database'
+
+            # cursor.execute("CREATE DATABASE IF NOT EXISTS scrape_database")
+            # connection.database = 'scrape_database'
 
             table_create = '''
             CREATE TABLE IF NOT EXISTS bus_routes (

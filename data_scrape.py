@@ -1,3 +1,5 @@
+"""AAAAAAAAAAA"""
+
 import pandas as pd
 
 from sql_connector import connect_scrape_database
@@ -18,9 +20,9 @@ states = [
 
 data_all_state = []
 for stc in states:
-    url = f'https://www.redbus.in/online-booking/{stc}'
+    URL = f'https://www.redbus.in/online-booking/{stc}'
 
-    scraper = ScrapeRedbus(url)
+    scraper = ScrapeRedbus(URL)
     data_all_state.extend(scraper.start_scrape())
 
 print("Done Scraping")
@@ -28,26 +30,32 @@ print("Done Scraping")
 data = pd.DataFrame(data_all_state)
 
 print('Cleaning Data',end=' ')
-df = data.dropna().copy()
-df.price = df.price.str.replace('INR ','')
-df.seats_available = df.seats_available.str.replace(' Seats available','')
-df.seats_available = df.seats_available.str.replace(' Seat available','')
-df = df.astype({'seats_available':'int','price':'float64'})
-print('Done')
+try:
+    df = data.dropna().copy()
+    df.price = df.price.str.replace(r'\D', '', regex=True)
+    df.seats_available = df.seats_available.str.replace(r'\D', '', regex=True)
+    df = df[(df['price'] != '') & (df['seats_available'] != '')]
+    df = df.astype({'seats_available': 'int', 'price': 'float64'})
 
-# df.to_csv('test.csv', index=False)
-# print("Done Saving Data")
+except Exception as e:
+    data.to_csv('test2.csv', index=False)
+    print("Error in cleaning Data")
+    print(e)
+    quit()
+
+df.to_csv('test2.csv', index=False)
+print("Done Saving Data")
 
 connection = connect_scrape_database()
 cursor = connection.cursor()
 
 print('Saving Data in DB',end=' ')
 for i, row in df.iterrows():
-    insert_query = """
+    INSERT_QUERY = """
     INSERT INTO bus_routes (route_name, route_link, busname, bustype, departing_time, duration, reaching_time, star_rating, price, seats_available)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
-    cursor.execute(insert_query, tuple(row))
+    cursor.execute(INSERT_QUERY, tuple(row))
 
 connection.commit()
 cursor.close()
