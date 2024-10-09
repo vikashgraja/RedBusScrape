@@ -4,6 +4,11 @@ from streamlit_dynamic_filters import DynamicFilters
 
 from sql_connector import connect_scrape_database
 
+st.set_page_config(page_title='Bus Filter',
+                   page_icon='🚌',
+                   layout="wide",
+                   )
+
 @st.cache_data()
 def retrive_data():
     connection = connect_scrape_database()
