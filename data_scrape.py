@@ -36,6 +36,7 @@ try:
     df.seats_available = df.seats_available.str.replace(r'\D', '', regex=True)
     df = df[(df['price'] != '') & (df['seats_available'] != '')]
     df = df.astype({'seats_available': 'int', 'price': 'float64'})
+    df = df.dropna()
 
 except Exception as e:
     data.to_csv('test2.csv', index=False)
