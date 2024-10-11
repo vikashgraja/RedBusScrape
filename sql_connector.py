@@ -1,11 +1,11 @@
-"""AAAAAAAAAAA"""
+"""This module provides functions to connect to the database."""
 import mysql.connector
 from mysql.connector import Error
 
 from settings import mysql_server, mysql_user, mysql_password
 
 def connect_scrape_database(test_database=False):
-    """AAAAAAAAAAA"""
+    """This function connects to the database."""
     try:
         connection = mysql.connector.connect(
             host= mysql_server,

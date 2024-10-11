@@ -1,4 +1,4 @@
-"""AAAAAAAAAAA"""
+"""This module provides functions to scrape RedBus web page."""
 
 import time
 
@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
 class ScrapeRedbus:
-    """AAAAAAAAAAA"""
+    """This class provides functions to scrape RedBus web page."""
     def __init__(self, url, timeout=5):
         self.url = url
         self.driver = webdriver.Chrome()
@@ -17,12 +17,12 @@ class ScrapeRedbus:
         self.timeout = timeout
 
     def load_url(self, url):
-        """AAAAAAAAAAA"""
+        """Load url"""
         self.driver.get(url)
         time.sleep(self.timeout)
 
     def ispagenated(self):
-        """AAAAAAAAAAA"""
+        """Finds weather the web page is paginated"""
         self.driver.get(self.url)
         try:
             pagination_container = self.driver.find_element(By.CLASS_NAME, "DC_117_paginationTable")
@@ -33,14 +33,14 @@ class ScrapeRedbus:
             return False
 
     def scrape_bus_routes(self):
-        """AAAAAAAAAAA"""
+        """Function to scrape bus routes in the page"""
         route_elements = self.driver.find_elements(By.CLASS_NAME, 'route')
         bus_routes_link = [route.get_attribute('href') for route in route_elements]
         bus_routes_name = [route.text.strip() for route in route_elements]
         return bus_routes_link, bus_routes_name
 
     def scrape_bus_details(self, url, route_name):
-        """AAAAAAAAAAA"""
+        """Function to scrape bus details in the page"""
         try:
             self.load_url(url)
 
@@ -96,7 +96,7 @@ class ScrapeRedbus:
             return []
 
     def start_scrape(self):
-        """AAAAAAAAAAA"""
+        """A wraper function for scraping RedBus web page."""
         all_bus_details = []
         pages = self.ispagenated()
         if pages:

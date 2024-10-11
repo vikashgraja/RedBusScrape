@@ -1,3 +1,5 @@
+"""This is the Streamlit app to display various filters for the scraped data."""
+
 import streamlit as st
 import pandas as pd
 from streamlit_dynamic_filters import DynamicFilters
@@ -11,6 +13,7 @@ st.set_page_config(page_title='Bus Filter',
 
 @st.cache_data()
 def retrive_data():
+    """A cached function for retrieving data from the database."""
     connection = connect_scrape_database()
     query = "SELECT * FROM bus_routes"
     df = pd.read_sql(query, connection, index_col='id')

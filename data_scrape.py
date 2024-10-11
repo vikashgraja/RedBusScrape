@@ -1,10 +1,11 @@
-"""AAAAAAAAAAA"""
+"""This is the main app that scrapes data from the RedBus website."""
 
 import pandas as pd
 
 from sql_connector import connect_scrape_database
 from web_scraper import ScrapeRedbus
 
+#  Add the list of States
 states = [
     'apsrtc',
     'ksrtc-kerala',
@@ -39,18 +40,18 @@ try:
     df = df.dropna()
 
 except Exception as e:
-    data.to_csv('test2.csv', index=False)
+    data.to_csv('BusDetails.csv', index=False)
     print("Error in cleaning Data")
     print(e)
     quit()
 
-df.to_csv('test2.csv', index=False)
 print("Done Saving Data")
 
 connection = connect_scrape_database()
 cursor = connection.cursor()
 
 print('Saving Data in DB',end=' ')
+
 for i, row in df.iterrows():
     INSERT_QUERY = """
     INSERT INTO bus_routes (route_name, route_link, busname, bustype, departing_time, duration, reaching_time, star_rating, price, seats_available)
