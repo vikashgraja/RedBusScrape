@@ -4,7 +4,7 @@ from mysql.connector import Error
 
 from settings import mysql_server, mysql_user, mysql_password
 
-def connect_scrape_database():
+def connect_scrape_database(test_database=False):
     """AAAAAAAAAAA"""
     try:
         connection = mysql.connector.connect(
@@ -16,11 +16,12 @@ def connect_scrape_database():
         if connection.is_connected():
             cursor = connection.cursor()
 
-            # cursor.execute("CREATE DATABASE IF NOT EXISTS test_database")
-            # connection.database = 'test_database'
-
-            cursor.execute("CREATE DATABASE IF NOT EXISTS scrape_database")
-            connection.database = 'scrape_database'
+            if test_database:
+                cursor.execute("CREATE DATABASE IF NOT EXISTS test_database")
+                connection.database = 'test_database'
+            else:
+                cursor.execute("CREATE DATABASE IF NOT EXISTS scrape_database")
+                connection.database = 'scrape_database'
 
             table_create = '''
             CREATE TABLE IF NOT EXISTS bus_routes (

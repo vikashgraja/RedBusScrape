@@ -25,6 +25,31 @@ dynamic_filters = DynamicFilters(data, filters=['route_name',
                                                                  'departing_time',])
 dynamic_filters.display_filters(location='columns', num_columns=2, gap='medium')
 
+new_df = dynamic_filters.filter_df()
+
+price_range = None
+min_price = new_df['price'].min()
+max_price = new_df['price'].max()
+
+rating_range = None
+min_rating = new_df['star_rating'].min()
+max_rating = new_df['star_rating'].max()
+
+if min_price != max_price:
+    price_range = st.slider('Price Range', min_price, max_price, (min_price, max_price),1.0)
+else:
+    price_range = (min_price, max_price)
+
+if min_rating != max_rating:
+    rating_range = st.slider('Rating Range', min_rating, max_rating, (min_rating, max_rating),0.1)
+else:
+    rating_range = (min_rating, max_rating)
+
+filtered_df = new_df[(
+    new_df['price'].between(price_range[0], price_range[1]))
+    & (new_df['star_rating'].between(rating_range[0], rating_range[1]))
+]
+
 '---'
 
-dynamic_filters.display_df()
+st.dataframe(filtered_df)
