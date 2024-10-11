@@ -47,7 +47,7 @@ except Exception as e:
 df.to_csv('test2.csv', index=False)
 print("Done Saving Data")
 
-connection = connect_scrape_database(test_database=True)
+connection = connect_scrape_database()
 cursor = connection.cursor()
 
 print('Saving Data in DB',end=' ')
